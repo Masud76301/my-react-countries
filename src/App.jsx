@@ -1,14 +1,28 @@
 
+import { Suspense } from 'react';
 import './App.css'
 import Countries from './components/Countries/Countries'
 
-function App() {
-  
 
+const loadCountries = async () => {
+  const url = 'https://openapi.programming-hero.com/api/all';
+  const res = await fetch(url);
+  return res.json();
+
+}
+
+
+
+function App() {
+
+  const allCountries = loadCountries();
   return (
     <>
-      
-       <Countries></Countries>
+      <Suspense fallback={<p>Countries Are Loading ....</p>}>
+
+        <Countries allCountries={allCountries}></Countries>
+
+      </Suspense>
 
     </>
   )
